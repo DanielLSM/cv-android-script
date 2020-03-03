@@ -1,3 +1,4 @@
+import vlc
 import speech_recognition as sr 
 from urllib.request import urlopen
 
@@ -25,6 +26,10 @@ if __name__=="__main__":
         except sr.RequestError as e:
             print("Could not request results from Google Speech Recognition service; {0}".format(e))
     # THIS SNIPPET IS FROM HERE: https://github.com/Uberi/speech_recognition/blob/master/examples/microphone_recognition.py
+
+    http_android = "http://130.229.146.176:8080/"
+    p = vlc.MediaPlayer(http_android+"audio.wav")
+    p.play()
 
 
     audio = get_audio()
