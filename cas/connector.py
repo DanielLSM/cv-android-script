@@ -7,20 +7,14 @@ import numpy as np
 
 
 
-
-
-
-
-
-
 if __name__=="__main__":
 
 
-    p = vlc.MediaPlayer("http://130.229.150.214:8080/audio.wav")
+    http_android = "http://130.229.146.176:8080/"
+    p = vlc.MediaPlayer(http_android+"audio.wav")
     p.play()
     while True:
-        url = "http://130.229.150.214:8080/shot.jpg"
-
+        url = http_android+"shot.jpg"
         img_shot =  requests.get(url)
         img_array = np.array(bytearray(img_shot.content), dtype=np.uint8)
         img = cv2.imdecode(img_array, -1)
