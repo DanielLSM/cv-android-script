@@ -5,7 +5,9 @@ import time
 # from absl.flags import FLAGS
 import cv2
 import tensorflow as tf
-from yolov3_tf2.models import YoloV3, YoloV3Tiny, Input, Darknet, YoloOutput, YoloConv
+from yolov3_tf2.models import YoloV3, YoloV3Tiny
+from yolov3_tf2.dataset import load_tfrecord_dataset
+from yolov3_tf2.utils import draw_outputs
 # from yolov3_tf2.models import Model, Lambda, yolo_boxes, YoloConvTiny, DarknetTiny
 # from yolov3_tf2.models import Model, Lambda, yolo_boxes, YoloConvTiny, DarknetTiny
 from yolov3_tf2.dataset import transform_images
@@ -126,8 +128,8 @@ class Detector:
                  tiny=False,
                  size=416,
                  video='../yolov3_tf2/data/video.mp4',
-                 output=None,
                  output_format='XVID',
+                 tf_record=None,
                  num_classes=80):
 
         self.classes = classes
@@ -135,8 +137,8 @@ class Detector:
         self.tiny = tiny
         self.size = size
         self.video = video
-        self.ouput = output
         self.output_format = output_format
+        self.tf_record = tf_record
         self.num_classes = num_classes
 
         self.physical_devices = tf.config.experimental.list_physical_devices('GPU')
@@ -158,6 +160,24 @@ class Detector:
 
         times = []
 
+        img = tf.expand_dims(img_raw, 0)
+        img = transform_images(img, FLAGS.size)
+
+        t1 = time.time()
+        boxes, scores, classes, nums = yolo(img)
+        t2 = time.time()
+        logging.info('time: {}'.format(t2 - t1))
+
+        logging.info('detections:')
+        for i in range(nums[0]):
+            logging.info('\t{}, {}, {}'.format(class_names[int(classes[0][i])],
+                                               np.array(scores[0][i]), np.array(boxes[0][i])))
+
+        img = cv2.cvtColor(img_raw.numpy(), cv2.COLOR_RGB2BGR)
+        img = draw_outputs(img, (boxes, scores, classes, nums), class_names)
+        cv2.imwrite(FLAGS.output, img)
+        logging.info('output saved to: {}'.format(FLAGS.output))
+
         # try:
         #     vid = cv2.VideoCapture(int(self.video))
         # except:
@@ -172,6 +192,17 @@ class Detector:
             self.fps = int(vid.get(cv2.CAP_PROP_FPS))
             self.codec = cv2.VideoWriter_fourcc(*self.output_format)
             self.out = cv2.VideoWriter(self.output, codec, fps, (width, height))
+
+    def get_img(self, image_path=None):
+        if self.tfrecord:
+            #gets random images
+            dataset = load_tfrecord_dataset(self.tfrecord, self.classes, self.size)
+            dataset = dataset.shuffle(512)
+            img_raw, _label = next(iter(dataset.take(1)))
+        else:
+            img_raw = tf.image.decode_image(open(FLAGS.image, 'rb').read(), channels=3)
+
+        return img_raw
 
 
 if __name__ == '__main__':
