@@ -1,11 +1,14 @@
 #main implementation of yolov3: https://github.com/zzh8829/yolov3-tf2
-
+import os
 import time
 import cv2
 import numpy as np
 import tensorflow as tf
 import logging
 from os import path
+
+# disables TF print log
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 ###############################################################################
 ###############################################################################
 #main implementation of yolov3: https://github.com/zzh8829/yolov3-tf2
@@ -19,18 +22,25 @@ from yolov3_tf2.utils import draw_outputs
 class Detector:
     def __init__(
         self,
-        classes='../../../yolov3_tf2/data/coco.names',
-        weights='../../../yolov3_tf2/checkpoints',
+        classes='../../../yolov3-tf2/data/coco.names',
+        weights='../../../yolov3-tf2/checkpoints/yolov3.tf',
         #  weights='../../../yolov3_tf2/checkpoints/yolov3.tf',
         tiny=False,
         size=416,
-        video='../../../yolov3_tf2/data/video.mp4',
+        video='../../../yolov3-tf2/data/video.mp4',
         output_format='XVID',
-        tf_record=None,
+        tfrecord=None,
         num_classes=80):
 
-        assert path.exists(weights)
-        assert path.exists(classes)
+        # import sys, os
+        # assert path.exists(classes)
+        # assert path.exists(weights)
+        # files = os.listdir(weights)
+        # for name in files:
+        #     print(name)
+
+        # import ipdb
+        # ipdb.set_trace()
 
         self.classes = classes
         self.weights = weights
@@ -38,12 +48,12 @@ class Detector:
         self.size = size
         self.video = video
         self.output_format = output_format
-        self.tf_record = tf_record
+        self.tfrecord = tfrecord
         self.num_classes = num_classes
         self.default_output = './output.jpg'
 
-        self.logging = logging.getLogger()
-        self.logging.setLevel(logging.DEBUG)
+        self.logging = logging
+        self.logging.basicConfig(level=logging.NOTSET)
 
         self.physical_devices = tf.config.experimental.list_physical_devices('GPU')
         if len(self.physical_devices) > 0:
@@ -63,7 +73,7 @@ class Detector:
         self.logging.info('classes loaded')
 
     def get_img(self, image_path=None):
-        if self.tfrecord or image_path:
+        if self.tfrecord or not image_path:
             #gets random images
             dataset = load_tfrecord_dataset(self.tfrecord, self.classes, self.size)
             dataset = dataset.shuffle(512)
@@ -83,12 +93,12 @@ class Detector:
     def print_classfication_scores(self, boxes, scores, classes, nums):
         self.logging.info('detections:')
         for i in range(nums[0]):
-            self.logging.info('\t{}, {}, {}'.format(class_names[int(classes[0][i])],
+            self.logging.info('\t{}, {}, {}'.format(self.class_names[int(classes[0][i])],
                                                     np.array(scores[0][i]), np.array(boxes[0][i])))
 
     def draw_output_image(self, img_raw):
         img = cv2.cvtColor(img_raw.numpy(), cv2.COLOR_RGB2BGR)
-        img = draw_outputs(img, (boxes, scores, classes, nums), class_names)
+        img = draw_outputs(img, (boxes, scores, classes, nums), self.class_names)
         return img
 
     def save_output_image(self, img, boxes, scores, classes, nums, output_path=None):
@@ -100,7 +110,20 @@ class Detector:
 
 if __name__ == '__main__':
 
-    image_path = '../../../yolov3_tf2/data/girl.png'
+    # import sys, os
+    # path = '../../../yolov3-tf2/data'
+
+    # if len(sys.argv) == 2:
+    #     path = sys.argv[1]
+
+    # files = os.listdir(path)
+    # for name in files:
+    #     print(name)
+
+    # import ipdb
+    # ipdb.set_trace()
+
+    image_path = '../../../yolov3-tf2/data/girl.png'
     output_path = './output.jpg'
     detector = Detector()
     image_raw = detector.get_img(image_path)
