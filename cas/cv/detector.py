@@ -20,27 +20,15 @@ from yolov3_tf2.utils import draw_outputs
 
 
 class Detector:
-    def __init__(
-        self,
-        classes='../../../yolov3-tf2/data/coco.names',
-        weights='../../../yolov3-tf2/checkpoints/yolov3.tf',
-        #  weights='../../../yolov3_tf2/checkpoints/yolov3.tf',
-        tiny=False,
-        size=416,
-        video='../../../yolov3-tf2/data/video.mp4',
-        output_format='XVID',
-        tfrecord=None,
-        num_classes=80):
-
-        # import sys, os
-        # assert path.exists(classes)
-        # assert path.exists(weights)
-        # files = os.listdir(weights)
-        # for name in files:
-        #     print(name)
-
-        # import ipdb
-        # ipdb.set_trace()
+    def __init__(self,
+                 classes='../../../yolov3-tf2/data/coco.names',
+                 weights='../../../yolov3-tf2/checkpoints/yolov3.tf',
+                 tiny=False,
+                 size=416,
+                 video='../../../yolov3-tf2/data/video.mp4',
+                 output_format='XVID',
+                 tfrecord=None,
+                 num_classes=80):
 
         self.classes = classes
         self.weights = weights
@@ -96,7 +84,7 @@ class Detector:
             self.logging.info('\t{}, {}, {}'.format(self.class_names[int(classes[0][i])],
                                                     np.array(scores[0][i]), np.array(boxes[0][i])))
 
-    def draw_output_image(self, img_raw):
+    def draw_output_image(self, img_raw, boxes, scores, classes, nums):
         img = cv2.cvtColor(img_raw.numpy(), cv2.COLOR_RGB2BGR)
         img = draw_outputs(img, (boxes, scores, classes, nums), self.class_names)
         return img
@@ -110,24 +98,11 @@ class Detector:
 
 if __name__ == '__main__':
 
-    # import sys, os
-    # path = '../../../yolov3-tf2/data'
-
-    # if len(sys.argv) == 2:
-    #     path = sys.argv[1]
-
-    # files = os.listdir(path)
-    # for name in files:
-    #     print(name)
-
-    # import ipdb
-    # ipdb.set_trace()
-
     image_path = '../../../yolov3-tf2/data/girl.png'
     output_path = './output.jpg'
     detector = Detector()
     image_raw = detector.get_img(image_path)
     boxes, scores, classes, nums = detector.get_inference(image_raw)
-    image = detector.draw_output_image(image_raw)
+    image = detector.draw_output_image(image_raw, boxes, scores, classes, nums)
     detector.save_output_image(image, boxes, scores, classes, nums, output_path)
     detector.print_classfication_scores(boxes, scores, classes, nums)
