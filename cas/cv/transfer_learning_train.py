@@ -1,6 +1,8 @@
+import os
+# disables TF print log
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 from absl import app, flags, logging
 from absl.flags import FLAGS
-
 import tensorflow as tf
 import numpy as np
 import cv2
@@ -18,9 +20,6 @@ from yolov3_tf2.models import (
 from yolov3_tf2.utils import freeze_all
 import yolov3_tf2.dataset as dataset
 
-
-# disables TF print log
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 flags.DEFINE_string('dataset', '../../../yolov3-tf2/data/voc2012_train.tfrecord', 'path to dataset')
 flags.DEFINE_string('val_dataset', '../../../yolov3-tf2/data/voc2012_val.tfrecord', 'path to validation dataset')

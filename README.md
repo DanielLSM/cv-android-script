@@ -37,3 +37,10 @@ conda activate wasp_cv
 ```
 pip install -e .
 ```
+
+## Transfer Learning
+
+To do transfer learning on VOC2012 dataset, go to cv-android-script/cas/cv/
+```
+ python transfer_learning_train.py
+```
