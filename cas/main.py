@@ -4,8 +4,10 @@ import requests
 import numpy as np
 import tensorflow as tf
 from cas.cv.detector import Detector
-# from cas.connector.
+from cas.connector.pmsg import FrameCapturer
 
+# import ipdb
+# ipdb.set_trace()
 if __name__ == "__main__":
 
     classes_path = '../../yolov3-tf2/data/coco.names'
@@ -15,7 +17,7 @@ if __name__ == "__main__":
 
     # import ipdb
     # ipdb.set_trace()
-    http_android = "http://130.229.165.230:8080/"
+    http_android = "http://130.229.170.85:8080/"
     # p = vlc.MediaPlayer(http_android + "audio.wav")
     # p.play()
     while True:

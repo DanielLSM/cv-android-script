@@ -21,14 +21,14 @@ from yolov3_tf2.utils import draw_outputs
 
 class Detector:
     def __init__(self,
-                 classes='../../../yolov3-tf2/data/voc2012.names',
+                 classes='../../../yolov3-tf2/data/coco.names',
                  weights='../../../yolov3-tf2/checkpoints/yolov3.tf',
                  tiny=False,
                  size=416,
                  video='../../../yolov3-tf2/data/video.mp4',
                  output_format='XVID',
                  tfrecord=None,
-                 num_classes=20):
+                 num_classes=80):
 
         self.classes = classes
         self.weights = weights
