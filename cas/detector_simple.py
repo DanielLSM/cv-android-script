@@ -4,7 +4,6 @@ import requests
 import numpy as np
 import tensorflow as tf
 from cas.cv.detector import Detector
-# from cas.connector.
 
 if __name__ == "__main__":
 
