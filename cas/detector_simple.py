@@ -14,13 +14,15 @@ if __name__ == "__main__":
 
     # import ipdb
     # ipdb.set_trace()
-    http_android = "http://130.229.165.230:8080/"
+    http_android = "http://130.229.170.85:8080/"
     # p = vlc.MediaPlayer(http_android + "audio.wav")
     # p.play()
     while True:
         url = http_android + "shot.jpg"
         img_shot = requests.get(url)
         img_array = np.array(bytearray(img_shot.content), dtype=np.uint8)
+        import ipdb
+        ipdb.set_trace()
         img_raw = tf.image.decode_image(img_shot.content, channels=3)
 
         #original        img = cv2.imdecode(img_array, -1)

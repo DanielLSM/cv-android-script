@@ -3,9 +3,9 @@ import copy, cv2, numpy, time
 
 #Install cv2 and numpy to run. pip install opencv-python and pip install opencv-python-headless
 class FrameCapturer:
-    def __init__(self, camera_id):
+    def __init__(self, camera_id, ratio=0.5):
         self.frame = None
-        self.ratio = 0.3
+        self.ratio = ratio
         self.open_camera(camera_id)
 
 # This opens the frame by by camera_id. Default camera is zero. If you attach more camera you need to specify
@@ -22,12 +22,12 @@ class FrameCapturer:
     def set_frame(self):
         cv2.rectangle(self.frame, (int((self.fw - self.rw) / 2), int(
             (self.fl - self.rl) / 2)), (int((self.fw + self.rw) / 2), int((self.fl + self.rl) / 2)),
-                      (0, 125, 230), 3)
+                      (0, 250, 460), 3)
 # Returns the center of the frame as a x,y tuple
 
     def set_center(self):
         cv2.circle(self.frame, (int(self.cap.get(3) / 2), int(self.cap.get(4) / 2)), 4,
-                   (0, 125, 230), 4, 5)
+                   (0, 250, 460), 4, 5)
 
 
 # Send the deep copy not the actualy frame. This can be modified safely
@@ -52,13 +52,14 @@ class FrameCapturer:
 if __name__ == "__main__":
     #EXAMPLE
 
-    # a = FrameCapturer(0)
-    url = 0
+    url = "http://130.229.170.85:8080/video"
     a = FrameCapturer(url)
+    # a = FrameCapturer(0)
+
     while True:
         frame, subframe = a.get_frame()
         cv2.imshow('sub_frame', subframe)
-        cv2.imshow('frame', frame)
+        # cv2.imshow('frame', frame)
         if cv2.waitKey(1) & 0xff == ord('q'):
             a.clear()
             break

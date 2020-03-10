@@ -84,8 +84,9 @@ class Detector:
             self.logging.info('\t{}, {}, {}'.format(self.class_names[int(classes[0][i])],
                                                     np.array(scores[0][i]), np.array(boxes[0][i])))
 
-    def draw_output_image(self, img_raw, boxes, scores, classes, nums):
-        img = cv2.cvtColor(img_raw.numpy(), cv2.COLOR_RGB2BGR)
+    def draw_output_image(self, img_raw, boxes, scores, classes, nums, color=0):
+        img_raw = img_raw if isinstance(img_raw, np.ndarray) else img_raw.numpy()
+        img = img_raw if color else cv2.cvtColor(img_raw, cv2.COLOR_RGB2BGR)
         img = draw_outputs(img, (boxes, scores, classes, nums), self.class_names)
         return img
 
