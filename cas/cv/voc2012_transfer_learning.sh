@@ -1,4 +1,5 @@
-#!/bin/bash 
+#!/bin/bash
+mkdir -p ./data 
 wget http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar -O ./data/voc2012_raw.tar
 mkdir -p ./data/voc2012_raw
 tar -xf ./data/voc2012_raw.tar -C ./data/voc2012_raw
@@ -14,6 +15,9 @@ python ../../../yolov3-tf2/tools/voc2012.py \
   --split val \
   --output_file ./data/voc2012_val.tfrecord
 
+wget https://pjreddie.com/media/files/yolov3.weights -O data/yolov3.weights # get pretrained weights
+
+python ../../../yolov3-tf2/convert.py # default save to ./checkpoints/yolov3.tf
 
 python transfer_learning_train.py \
 	--dataset ./data/voc2012_train.tfrecord \
