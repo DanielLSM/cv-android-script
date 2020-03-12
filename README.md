@@ -43,7 +43,6 @@ https://drive.google.com/file/d/1EHgAJ5JCVsbTdIwaEYW3hqXZvG2ROOlF/view?usp=shari
 7) install modified yolov3
 ```
 pip install git+https://github.com/DanielLSM/yolov3-tf2.git
-
 ```
 ## Training
 
