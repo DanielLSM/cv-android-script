@@ -57,7 +57,7 @@ Here is a bash script ```voc20120_transfer_learning.sh``` downloading VOC2012, g
 ```
 cd cv-android-script/cas/
 ```
-2)
+2) Run the program :)
 ```
 python main.py
 ```
