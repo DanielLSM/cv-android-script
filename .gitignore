@@ -131,6 +131,8 @@ dmypy.json
 
 # my ignores
 .vscode/
+parameters/
 *.jpg
 # *.png
 *.mp3
+*.zip

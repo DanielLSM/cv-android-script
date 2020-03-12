@@ -27,16 +27,21 @@ cd cv-android-script/
 ```
 3) Install the anaconda environment
 ```
-conda env create -f wasp_cv.yml
+conda env create -f wasp.yml
 ```
 4) Load the anaconda environment
 ```
-conda activate wasp_cv
+conda activate wasp
 ```
 5) Install this package on the environment
 ```
 pip install -e .
 ```
+6) Obtain parameters
+- download the parameters folder and uncompress inside this repository (just next to this README.md)
+https://drive.google.com/file/d/1q09a2FNUCZHRddGFrN9xRICekV3rKK9C/view?usp=sharing
+7) install modified yolov3
+pip install git+https://github.com/DanielLSM/yolov3-tf2.git
 ## Training
 
 To train on other dataset, you need to generate tfrecord, for example using [Microsoft VOTT](https://github.com/Microsoft/VoTT) to generate such dataset.

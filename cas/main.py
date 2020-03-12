@@ -33,8 +33,7 @@ if __name__ == "__main__":
     detector = Detector(classes=classes_path, weights=weights_path)
     speaker = Speaker(dest_language='es')
     capturer = FrameCapturer(url)
-    # a = FrameCapturer(0)
-    # lock = Lock()
+    # a = FrameCapturer(0) USE THIS LINE WITH JUST WEBCAM
     running = True
     recognized = False
     speaker_thread = Thread(target=translate_thread)
@@ -43,7 +42,6 @@ if __name__ == "__main__":
 
         frame, subframe = capturer.get_frame()
         boxes, scores, classes, nums = detector.get_inference(subframe)
-        # lock.acquire()
         recognized = detector.get_highest_recognized(boxes, scores, classes, nums)
         print(recognized)
         subframe = detector.draw_output_image(subframe, boxes, scores, classes, nums, color=1)
