@@ -37,10 +37,9 @@ conda activate wasp_cv
 ```
 pip install -e .
 ```
+## Training
 
-## Transfer Learning
+To train on other dataset, you need to generate tfrecord, for example using [Microsoft VOTT](https://github.com/Microsoft/VoTT) to generate such dataset.
+You can also use this [script](https://github.com/tensorflow/models/blob/master/research/object_detection/dataset_tools/create_pascal_tf_record.py) to create the pascal voc dataset. Once you have generate the tfrecord, you can call ```transfer_learning_train.py``` to train with transfer learning or from random weights.
 
-To do transfer learning on VOC2012 dataset, go to cv-android-script/cas/cv/
-```
- python transfer_learning_train.py
-```
+Here is a bash script ```voc20120_transfer_learning.sh``` downloading VOC2012, generating tfrecord and training with the pretrained darknet weights.
