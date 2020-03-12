@@ -39,12 +39,26 @@ pip install -e .
 ```
 6) Obtain parameters
 - download the parameters folder and uncompress inside this repository (just next to this README.md)
-https://drive.google.com/file/d/1q09a2FNUCZHRddGFrN9xRICekV3rKK9C/view?usp=sharing
+https://drive.google.com/file/d/1EHgAJ5JCVsbTdIwaEYW3hqXZvG2ROOlF/view?usp=sharing
 7) install modified yolov3
+```
 pip install git+https://github.com/DanielLSM/yolov3-tf2.git
+
+```
 ## Training
 
 To train on other dataset, you need to generate tfrecord, for example using [Microsoft VOTT](https://github.com/Microsoft/VoTT) to generate such dataset.
 You can also use this [script](https://github.com/tensorflow/models/blob/master/research/object_detection/dataset_tools/create_pascal_tf_record.py) to create the pascal voc dataset. Once you have generate the tfrecord, you can call ```transfer_learning_train.py``` to train with transfer learning or from random weights.
 
 Here is a bash script ```voc20120_transfer_learning.sh``` downloading VOC2012, generating tfrecord and training with the pretrained darknet weights.
+
+## Running
+
+1) Move to the "cas" repository in your system
+```
+cd cv-android-script/cas/
+```
+2)
+```
+python main.py
+```
