@@ -33,7 +33,7 @@ if __name__ == "__main__":
     detector = Detector(classes=classes_path, weights=weights_path)
     speaker = Speaker(dest_language='es')
     capturer = FrameCapturer(url)
-    # a = FrameCapturer(0) USE THIS LINE WITH JUST WEBCAM
+    # capturer = FrameCapturer(0) USE THIS LINE WITH JUST WEBCAM
     running = True
     recognized = False
     speaker_thread = Thread(target=translate_thread)
