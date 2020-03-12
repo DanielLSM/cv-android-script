@@ -12,7 +12,7 @@ if __name__ == "__main__":
 
     classes_path = '../../yolov3-tf2/data/coco.names'
     weights_path = '../../yolov3-tf2/checkpoints/yolov3.tf'
-    url = "http://130.229.170.85:8080/video"
+    url = "http://130.229.145.192:8080/video"
     detector = Detector(classes=classes_path, weights=weights_path)
     capturer = FrameCapturer(url)
     # a = FrameCapturer(0)
