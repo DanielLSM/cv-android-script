@@ -18,7 +18,9 @@ class Speaker:
 
     def speak_translation(self, in_text):
         assert isinstance(in_text, str)
-        tts = gTTS(text=self.starter_sentence + in_text, lang=self.dest_language)
+        text = self.starter_sentence + in_text
+        text_translated = self.translator.translate(text, dest=self.dest_language)
+        tts = gTTS(text=text_translated.text, lang=self.dest_language)
         tts.save("speak_translate.mp3")
         os.system("mpg321 speak_translate.mp3")
 

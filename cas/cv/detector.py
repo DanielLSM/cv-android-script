@@ -6,7 +6,7 @@ import numpy as np
 import tensorflow as tf
 import logging
 from os import path
-
+from operator import itemgetter
 # disables TF print log
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 ###############################################################################
@@ -83,6 +83,13 @@ class Detector:
         for i in range(nums[0]):
             self.logging.info('\t{}, {}, {}'.format(self.class_names[int(classes[0][i])],
                                                     np.array(scores[0][i]), np.array(boxes[0][i])))
+
+    def get_highest_recognized(self, boxes, scores, classes, nums):
+        recognized = []
+        for i in range(nums[0]):
+            recognized.append((self.class_names[int(classes[0][i])], np.array(scores[0][i]),
+                               np.array(boxes[0][i])))
+        return None if not recognized else max(recognized, key=itemgetter(1))[0]
 
     def draw_output_image(self, img_raw, boxes, scores, classes, nums, color=0):
         img_raw = img_raw if isinstance(img_raw, np.ndarray) else img_raw.numpy()
