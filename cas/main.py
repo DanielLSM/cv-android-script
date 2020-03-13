@@ -3,9 +3,9 @@ import vlc
 import requests
 import numpy as np
 import tensorflow as tf
-from cas.cv.detector import Detector
-from cas.connector.pmsg import FrameCapturer
-from cas.sr.speaker import Speaker
+from cv.detector import Detector
+from connector.pmsg import FrameCapturer
+from sr.speaker import Speaker
 
 from threading import Thread, Lock
 
@@ -17,12 +17,15 @@ def translate_thread():
     old_recognized = False
     i = 0
     while running:
-        print(str(recognized))
-        if (recognized and not i % 1000) and recognized != old_recognized:
+        #print(str(recognized))
+        #if (recognized) and recognized != old_recognized:
+        if (bool(recognized) and not i % 1000) and recognized != old_recognized:
             i = 0
             old_recognized = recognized
             speaker.dialog(recognized)
             print(i)
+        print(i)
+        i+=1
 
 
 if __name__ == "__main__":
@@ -32,8 +35,8 @@ if __name__ == "__main__":
     url = "http://130.229.145.192:8080/video"
     detector = Detector(classes=classes_path, weights=weights_path)
     speaker = Speaker(dest_language='es')
-    capturer = FrameCapturer(url)
-    # capturer = FrameCapturer(0) USE THIS LINE WITH JUST WEBCAM
+    #capturer = FrameCapturer(url)
+    capturer = FrameCapturer(0) #USE THIS LINE WITH JUST WEBCAM
     running = True
     recognized = False
     speaker_thread = Thread(target=translate_thread)

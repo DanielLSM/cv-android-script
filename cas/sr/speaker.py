@@ -14,7 +14,7 @@ class Speaker:
         assert isinstance(in_text, str)
         tts = gTTS(text=self.starter_sentence + in_text, lang='en')
         tts.save("speak.mp3")
-        os.system("mpg321 speak.mp3")
+        os.system("play speak.mp3")
 
     def speak_translation(self, in_text):
         assert isinstance(in_text, str)
@@ -22,7 +22,7 @@ class Speaker:
         text_translated = self.translator.translate(text, dest=self.dest_language)
         tts = gTTS(text=text_translated.text, lang=self.dest_language)
         tts.save("speak_translate.mp3")
-        os.system("mpg321 speak_translate.mp3")
+        os.system("play speak_translate.mp3")
 
     def dialog(self, in_text):
         self.speak(in_text)
@@ -32,7 +32,7 @@ class Speaker:
 def translate(in_text, dest_language='en'):
     translator = Translator()
     result = translator.translate(in_text, dest=dest_language)
-    print('Translation: ' + result.text + '. Translated language is ' + dest_language)
+    #print('Translation: ' + result.text + '. Translated language is ' + dest_language)
     return result
 
 
